@@ -61,10 +61,9 @@ app.post('/get_transcript', async (req, res) => {
         }
 
         // Format each transcript entry with timestamp
-        let currentTime = 0;
-        const formattedTranscript = transcripts.map(entry => {
-            const timestamp = formatTimestamp(currentTime);
-            currentTime += entry.duration / 1000; // Convert duration to seconds
+        const formattedTranscript = transcripts.map((entry, index) => {
+            // Calculate timestamp based on the start time of each entry
+            const timestamp = formatTimestamp(entry.offset / 1000);
             return `${timestamp} - ${entry.text}`;
         }).join('\n');
         
