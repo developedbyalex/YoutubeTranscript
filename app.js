@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { getSubtitles } = require('youtube-captions-scraper');
+const { YoutubeTranscript } = require('youtube-transcript');
 const path = require('path');
 
 const app = express();
@@ -47,16 +47,13 @@ app.post('/get_transcript', async (req, res) => {
             return res.status(400).json({ error: 'Invalid YouTube URL' });
         }
 
-        const transcript = await getSubtitles({
-            videoID: videoId,
-            lang: 'en' // Default to English
-        });
-
-        if (!transcript || transcript.length === 0) {
+        const transcripts = await YoutubeTranscript.fetchTranscript(videoId);
+        
+        if (!transcripts || transcripts.length === 0) {
             return res.status(404).json({ error: 'No transcript available for this video' });
         }
 
-        const text = transcript.map(entry => entry.text).join(' ');
+        const text = transcripts.map(entry => entry.text).join(' ');
         
         return res.json({
             success: true,
