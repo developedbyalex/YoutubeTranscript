@@ -4,4 +4,16 @@
 
 .loading.active {
     display: block;
+}
+
+#transcriptContent {
+    font-family: monospace;
+    white-space: pre-wrap;
+    line-height: 1.6;
+}
+
+.timestamp {
+    color: #666;
+    font-weight: bold;
+    margin-right: 8px;
 } 

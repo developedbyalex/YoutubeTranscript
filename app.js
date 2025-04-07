@@ -16,6 +16,13 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Convert seconds to timestamp format (MM:SS)
+function formatTimestamp(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
 // Extract video ID from various YouTube URL formats
 function extractVideoId(url) {
     const patterns = [
@@ -53,11 +60,15 @@ app.post('/get_transcript', async (req, res) => {
             return res.status(404).json({ error: 'No transcript available for this video' });
         }
 
-        const text = transcripts.map(entry => entry.text).join(' ');
+        // Format each transcript entry with timestamp
+        const formattedTranscript = transcripts.map(entry => {
+            const timestamp = formatTimestamp(entry.offset / 1000); // Convert milliseconds to seconds
+            return `${timestamp} - ${entry.text}`;
+        }).join('\n');
         
         return res.json({
             success: true,
-            transcript: text
+            transcript: formattedTranscript
         });
 
     } catch (error) {
