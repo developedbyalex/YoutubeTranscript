@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const { YoutubeTranscript } = require('youtube-transcript');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -11,9 +12,45 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
+// Statistics file path
+const statsPath = path.join(__dirname, 'stats.json');
+
+// Function to read statistics
+function readStats() {
+    try {
+        const data = fs.readFileSync(statsPath, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        return {
+            totalTranscripts: 0,
+            lastUpdated: new Date().toISOString()
+        };
+    }
+}
+
+// Function to update statistics
+function updateStats() {
+    const stats = readStats();
+    stats.totalTranscripts += 1;
+    stats.lastUpdated = new Date().toISOString();
+    
+    fs.writeFileSync(statsPath, JSON.stringify(stats, null, 2));
+    return stats;
+}
+
 // Serve the HTML file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Get statistics endpoint
+app.get('/stats', (req, res) => {
+    try {
+        const stats = readStats();
+        res.json(stats);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to read statistics' });
+    }
 });
 
 // Convert seconds to timestamp format (MM:SS)
@@ -60,16 +97,20 @@ app.post('/get_transcript', async (req, res) => {
             return res.status(404).json({ error: 'No transcript available for this video' });
         }
 
+        // Update statistics
+        const stats = updateStats();
+
         // Format each transcript entry with timestamp
-        const formattedTranscript = transcripts.map((entry, index) => {
-            // Calculate timestamp based on the start time of each entry
-            const timestamp = formatTimestamp(entry.offset / 1000);
+        const formattedTranscript = transcripts.map(entry => {
+            const startTime = entry.start || entry.offset || 0;
+            const timestamp = formatTimestamp(startTime);
             return `${timestamp} - ${entry.text}`;
         }).join('\n');
         
         return res.json({
             success: true,
-            transcript: formattedTranscript
+            transcript: formattedTranscript,
+            stats: stats
         });
 
     } catch (error) {

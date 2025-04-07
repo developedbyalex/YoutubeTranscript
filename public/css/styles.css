@@ -1,19 +1,169 @@
+/* Base styles */
+body {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    color: #ffffff;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Glass effect container */
+.container {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Input field styling */
+input[type="text"] {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #fe308b;
+    box-shadow: 0 0 0 2px rgba(254, 48, 139, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Button styling */
+button {
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+#getTranscript {
+    background: linear-gradient(135deg, #fe308b 0%, #ff4da3 100%);
+    border: none;
+    box-shadow: 0 4px 15px rgba(254, 48, 139, 0.3);
+}
+
+#getTranscript:hover {
+    background: linear-gradient(135deg, #ff4da3 0%, #fe308b 100%);
+    box-shadow: 0 6px 20px rgba(254, 48, 139, 0.4);
+}
+
+#copyBtn, #downloadBtn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#copyBtn:hover, #downloadBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Loading animation */
 .loading {
     display: none;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .loading.active {
     display: block;
 }
 
+.loading .animate-spin {
+    border-color: #fe308b;
+    border-top-color: transparent;
+}
+
+/* Transcript content */
 #transcriptContent {
-    font-family: monospace;
+    font-family: 'Inter', sans-serif;
     white-space: pre-wrap;
     line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .timestamp {
-    color: #666;
-    font-weight: bold;
+    color: #fe308b;
+    font-weight: 600;
     margin-right: 8px;
+    text-shadow: 0 0 10px rgba(254, 48, 139, 0.3);
+}
+
+/* Error message styling */
+#error {
+    background: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Card styling */
+.bg-white {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: all 0.3s ease;
+}
+
+.bg-white:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+/* Text colors */
+.text-gray-800 {
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.text-gray-700 {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #fe308b 0%, #ff4da3 100%);
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(254, 48, 139, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #ff4da3 0%, #fe308b 100%);
+}
+
+/* Add some subtle animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
+
+.container {
+    animation: float 6s ease-in-out infinite;
 } 

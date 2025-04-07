@@ -4,52 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Transcript Extractor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="/css/styles.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-2xl mx-auto">
-            <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">YouTube Transcript Extractor</h1>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="space-y-6">
+            <h1 class="text-4xl font-bold text-center mb-8">YouTube Transcript Extractor</h1>
             
-            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                <div class="mb-4">
-                    <label for="videoUrl" class="block text-gray-700 text-sm font-bold mb-2">YouTube Video URL</label>
+            <!-- Statistics Section -->
+            <div class="bg-white rounded-xl p-6 mb-6">
+                <div>
+                    <h2 class="text-2xl font-semibold mb-2">Statistics</h2>
+                    <p class="text-lg" id="totalTranscripts">Total Transcripts: 0</p>
+                    <p class="text-sm opacity-75" id="lastUpdated">Last updated: Never</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl p-6 space-y-4">
+                <div>
+                    <label for="videoUrl" class="block text-sm font-medium mb-2">YouTube Video URL</label>
                     <input type="text" id="videoUrl" 
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                           placeholder="https://www.youtube.com/watch?v=...">
+                           class="w-full px-4 py-3 rounded-lg focus:outline-none"
+                           placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
                 </div>
                 <button id="getTranscript" 
-                        class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                        class="w-full py-3 px-4 rounded-lg font-medium focus:outline-none">
                     Get Transcript
                 </button>
             </div>
 
-            <div class="loading bg-white rounded-lg shadow-md p-6 mb-6">
-                <div class="flex items-center justify-center">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-                    <span class="ml-2 text-gray-700">Processing...</span>
+            <div class="loading rounded-xl p-6">
+                <div class="flex items-center justify-center space-x-3">
+                    <div class="animate-spin rounded-full h-8 w-8 border-4"></div>
+                    <span class="text-lg">Processing...</span>
                 </div>
             </div>
 
-            <div id="result" class="bg-white rounded-lg shadow-md p-6 hidden">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-800">Transcript</h2>
-                    <div class="space-x-2">
+            <div id="result" class="bg-white rounded-xl p-6 hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold">Transcript</h2>
+                    <div class="space-x-3">
+                        <button id="toggleTimestamps" 
+                                class="py-2 px-4 rounded-lg font-medium focus:outline-none">
+                            Hide Timestamps
+                        </button>
                         <button id="copyBtn" 
-                                class="bg-gray-500 text-white py-1 px-3 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">
+                                class="py-2 px-4 rounded-lg font-medium focus:outline-none">
                             Copy
                         </button>
                         <button id="downloadBtn" 
-                                class="bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                                class="py-2 px-4 rounded-lg font-medium focus:outline-none">
                             Download
                         </button>
                     </div>
                 </div>
-                <div id="transcriptContent" class="text-gray-700 whitespace-pre-wrap"></div>
+                <div id="transcriptContent" class="whitespace-pre-wrap max-h-[60vh] overflow-y-auto pr-4"></div>
             </div>
 
-            <div id="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative hidden" role="alert">
+            <div id="error" class="rounded-xl p-4 hidden" role="alert">
                 <span class="block sm:inline" id="errorMessage"></span>
             </div>
         </div>
