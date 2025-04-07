@@ -1,0 +1,18 @@
+{
+  "name": "youtube-transcript-extractor",
+  "version": "1.0.0",
+  "description": "A web application that extracts transcripts from YouTube videos",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "youtube-transcript-api": "^0.0.8",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+} 
